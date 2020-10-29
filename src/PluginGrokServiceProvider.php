@@ -172,7 +172,7 @@ class PluginGrokServiceProvider extends ServiceProvider
                 null //$IconSizingClasses
         )
             ->pushGroup('admin.dev.grok', 'Grok')
-            ->pushLink('admin.dev.grok.main', 'Main', '/grok');
+            ->pushLink('admin.dev.grok.main', 'Main', '/admin/grok');
     }
 
     public function register()
