@@ -1,35 +1,36 @@
 <?php
 
-namespace Spatie\Skeleton;
+namespace TallAndSassy\PluginGrok;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Spatie\Skeleton\Commands\SkeletonCommand;
-use Spatie\Skeleton\Http\Controllers\SkeletonController;
+use TallAndSassy\PluginGrok\Commands\PluginGrokCommand;
+use TallAndSassy\PluginGrok\Http\Controllers\PluginGrokController;
 
-class SkeletonServiceProvider extends ServiceProvider
+class PluginGrokServiceProvider extends ServiceProvider
 {
-    public static string $blade_prefix = "bladeprefix"; #bladeprefix is a template term
+    public static string $blade_prefix = "tassy"; #tassy is a template term
+    public static string $language_prefix = "Tassit"; #languageprefix is a template term
 
     public function boot()
     {
         if ($this->app->runningInConsole()) {
             $this->publishes(
                 [
-                    __DIR__ . '/../config/skeleton.php' => config_path('skeleton.php'),
+                    __DIR__ . '/../config/plugin-grok.php' => config_path('plugin-grok.php'),
                 ],
                 'config'
             );
 
             $this->publishes(
                 [
-                    __DIR__ . '/../resources/views' => base_path('resources/views/vendor/skeleton'),
+                    __DIR__ . '/../resources/views' => base_path('resources/views/vendor/plugin-grok'),
                 ],
                 'views'
             );
 
-            $migrationFileName = 'create_skeleton_table.php';
+            $migrationFileName = 'create_plugin_grok_table.php';
             if (! $this->migrationFileExists($migrationFileName)) {
                 $this->publishes(
                     [
@@ -42,34 +43,44 @@ class SkeletonServiceProvider extends ServiceProvider
             }
 
             $this->publishes([
-                 __DIR__.'/../resources/public' => public_path('spatie/skeleton'),
+                 __DIR__.'/../resources/public' => public_path('tallandsassy/plugin-grok'),
                 ], ['public']);
 
             // Publishing assets.
             /*$this->publishes([
-                __DIR__.'/../resources/assets' => public_path('spatie/skeleton'),
+                __DIR__.'/../resources/assets' => public_path('tallandsassy/plugin-grok'),
             ], 'grok.views');*/
 
             // Publishing the translation files.
-            /*$this->publishes([
-                __DIR__.'/../resources/lang' => resource_path('lang/spatie/skeleton'),
-            ], 'spatie.skeleton');*/
+//            $this->publishes([
+//               $this->loadTranslationsFrom(__DIR__ . '/../resources/lang/', static::$language_prefix),
+//            ], 'tallandsassy.plugin-grok');
 
 
 
             // Registering package commands.
             $this->commands(
                 [
-                    SkeletonCommand::class,
+                    PluginGrokCommand::class,
                 ]
             );
         }
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'bladeprefix');
+        // Translation
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang/', static::$language_prefix);
+        if ($this->app->runningInConsole()) {
+            $to = "{$this->app['path.lang']}/vendor/".static::$language_prefix; //resources/lang/tallandsassy/plugin-grok
+            $this->publishes([
+               __DIR__.'/../resources/lang' => $to,
+            ], 'tallandsassy.plugin-grok');
+        }
+
+        // Views
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'tassy');
 
 
         Route::macro(
-            'bladeprefix',
+            'tassy',
             function (string $prefix) {
                 Route::prefix($prefix)->group(
                     function () {
@@ -78,24 +89,24 @@ class SkeletonServiceProvider extends ServiceProvider
                         if (App::environment(['local', 'testing'])) {
                             // prefixed url to string
                             Route::get(
-                                '/Spatie/Skeleton/sample_string', // you will absolutely need a prefix in your url
+                                '/TallAndSassy/PluginGrok/sample_string', // you will absolutely need a prefix in your url
                                 function () {
-                                    return "Hello Skeleton string via blade prefix";
+                                    return "Hello PluginGrok string via blade prefix";
                                 }
                             );
 
                             // prefixed url to blade view
                             Route::get(
-                                '/Spatie/Skeleton/sample_blade',
+                                '/TallAndSassy/PluginGrok/sample_grok_bridge_blade',
                                 function () {
-                                    return view('bladeprefix::sample_blade');
+                                    return view('tassy::sample_grok_bridge_blade');
                                 }
                             );
 
                             // prefixed url to controller
                             Route::get(
-                                '/Spatie/Skeleton/controller',
-                                [SkeletonController::class, 'sample']
+                                '/TallAndSassy/PluginGrok/controller',
+                                [PluginGrokController::class, 'sample']
                             );
                         }
                         // Prefix Route Samples -END-
@@ -105,31 +116,31 @@ class SkeletonServiceProvider extends ServiceProvider
                 );
             }
         );
-        Route::bladeprefix('bladeprefix'); // This works. http://test-jet.test/bladeprefix/Spatie/Skeleton/string
-        // They are addatiive, so in your own routes/web.php file, do Route::bladeprefix('staff'); to
-        // make http://test-jet.test/staff/Spatie/Skeleton/string work
+        Route::tassy('tassy'); // This works. http://test-jet.test/tassy/TallAndSassy/PluginGrok/string
+        // They are addatiive, so in your own routes/web.php file, do Route::tassy('staff'); to
+        // make http://test-jet.test/staff/TallAndSassy/PluginGrok/string work
 
 
         // global url samples -BEGIN-
         if (App::environment(['local', 'testing'])) {
             // global url to string
             Route::get(
-                '/grok/Spatie/Skeleton/sample_string',
+                '/grok/TallAndSassy/PluginGrok/sample_string',
                 function () {
-                    return "Hello Skeleton string via global url.";
+                    return "Hello PluginGrok string via global url.";
                 }
             );
 
             // global url to blade view
             Route::get(
-                '/grok/Spatie/Skeleton/sample_blade',
+                '/grok/TallAndSassy/PluginGrok/sample_blade',
                 function () {
-                    return view('bladeprefix::sample_blade');
+                    return view('tassy::sample_blade');
                 }
             );
 
             // global url to controller
-            Route::get('/grok/Spatie/Skeleton/controller', [SkeletonController::class, 'sample']);
+            Route::get('/grok/TallAndSassy/PluginGrok/controller', [PluginGrokController::class, 'sample']);
         }
         // global url samples -END-
 
@@ -137,40 +148,36 @@ class SkeletonServiceProvider extends ServiceProvider
 
         // GROK
         if (App::environment(['local', 'testing'])) {
-            \ElegantTechnologies\Grok\GrokWrangler::grokMe(static::class, 'Spatie', 'skeleton', 'resources/views/grok', 'bladeprefix');//bladeprefix gets macro'd out
-            Route::get('/grok/Spatie/Skeleton', fn () => view('bladeprefix::grok/index'));
+            \ElegantTechnologies\Grok\GrokWrangler::grokMe(static::class, 'TallAndSassy', 'plugin-grok', 'resources/views/grok', 'tassy');//tassy gets macro'd out
+            Route::get('/grok/TallAndSassy/PluginGrok', fn () => view('tassy::grok/index'));
         }
 
         // TODO: Register your livewire components that live in this package here:
         # \Livewire\Livewire::component('tassygroklivewirejet::a-a-nothing',  \TallAndSassy\GrokLivewireJet\Components\DemoUiChunks\AANothing::class);
+        \Livewire\Livewire::component('tassy::livewire.grok-bridge',  \TallAndSassy\PluginGrok\Components\GrokBridge::class);
         // TODO: Add your own other boot related stuff here...
 
         // TODO: Add your own admin menu items here
         /*
          * ring $handle, string $Label, ?string $SvgHtml, ?string $IconName, ?string $urlIfNoFurtherChildren_nullIfGroup, ?string $IconSizingClasses = null
-         * \TallAndSassy\PageGuide\MenuTree::singleton('upper')->pushTop( // 'lower' puts items down low.
-                'admin.Cafe', // Key
-                'Cafe',         // $Label
+         *
+         *
+         */
+        \TallAndSassy\PageGuide\MenuTree::singleton('lower')->ensureTop( // 'lower' puts items down low.
+                'dev', // Key
+                'Dev',         // $Label
                 null,//$SvgHtml
-                'heroicon-o-question-mark-circle', // $IconNameVisit: https://blade-ui-kit.com/blade-icons/heroicon-o-home
+                'fab-connectdevelop', // $IconNameVisit: https://blade-ui-kit.com/blade-icons/heroicon-o-home
                 null, //$urlIfNoFurtherChildren_nullIfGroup
                 null //$IconSizingClasses
-            )
-                ->pushLink('admin.salad.fruit' . uniqid(), 'Fruit Salad', '/admin/fruit')
-                ->pushLink('admin.salad.leaf' . uniqid(), 'Lettuce Salad', '/admin/leaf')
-                ->pushLink('admin.salad.potato' . uniqid(), 'Yucky Salad', '/admin/potato')
-                ->pushGroup('condiments' . uniqid(), 'Condiments')
-                ->pushLink(
-                    'admin.condiments.mustard' . uniqid(),
-                    'Hymans Brand Mustard',
-                    '/admin/condiment/mustard'
-                );
-         */
+        )
+            ->pushGroup('admin.dev.grok', 'Grok')
+            ->pushLink('admin.dev.grok.main', 'Main', '/grok');
     }
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/skeleton.php', 'skeleton');
+        $this->mergeConfigFrom(__DIR__ . '/../config/plugin-grok.php', 'plugin-grok');
     }
 
     public static function migrationFileExists(string $migrationFileName): bool

@@ -1,0 +1,13 @@
+{
+    "Team Settings" : "Family Settings",
+    "Manage Team" : "Manage Family",
+    "Switch Team" : "Switch Family",
+       "Team Name" : "Family Name",
+    "Team Owner" : "Family Organizer",
+    "Add Team Member" : "Add Family Member",
+    "The team's name and owner information." : "The family's name and organizer information",
+    "Add a new team member to your team, allowing them to collaborate with you." : "Add a new family member to your family, allowing them to collaborate with you.",
+    "Please provide the email address of the person you would like to add to this team. The email address must be associated with an existing account." : "Please provide the email address of the person you would like to add to this family. The email address must be associated with an existing account.",
+    "Delete Team" : "Delete Family",
+    "Once a team is deleted, all of its resources and data will be permanently deleted. Before deleting this team, please download any data or information regarding this team that you wish to retain." : "Once a family is deleted, all of its resources and data will be permanently deleted. Before deleting this family, please download any data or information regarding this team that you wish to retain."
+}
