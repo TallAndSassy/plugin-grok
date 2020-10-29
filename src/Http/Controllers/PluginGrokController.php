@@ -20,6 +20,7 @@ class PluginGrokController extends \TallAndSassy\PageGuide\Http\Controllers\Admi
         } elseif (isset($route->action['uses'])) {
             $bodyView = \App::call($route->action['uses'], ['subLevels' => $subLevels]);
         }
+
         return $bodyView;
     }
 }

@@ -4,7 +4,6 @@ namespace TallAndSassy\PluginGrok\Components;
 
 use Livewire\Component;
 
-
 /*
         [ ] Be sure to registrer this compoent in TallAndSassy/PluginGrokServiceProvider.php
             Something like this in the function boot()...
@@ -56,5 +55,3 @@ class GrokBridge extends Component
         return view('tassy::livewire.grok-bridge');
     }
 }
-
-
