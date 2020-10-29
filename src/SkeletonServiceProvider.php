@@ -41,7 +41,7 @@ class SkeletonServiceProvider extends ServiceProvider
                 );
             }
 
-             $this->publishes([
+            $this->publishes([
                  __DIR__.'/../resources/public' => public_path('spatie/skeleton'),
                 ], ['public']);
 
